@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MNClient.iml" filepath="$PROJECT_DIR$/MNClient.iml" />
+    </modules>
+  </component>
+</project>
