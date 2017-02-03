@@ -2,8 +2,9 @@ package MNServer;
 
 import MNServer.GameCards.Hero;
 import MNServer.GameCards.Monster;
-import MNServer.MNPacket.*;
+import MNServer.MNSPacket.*;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 
 import java.util.ArrayList;
 
@@ -41,9 +42,23 @@ public class GameSession {
 
     void disconnected(int player)
     {
-        if(player == 1) aquired1 = false;
+        if(gameIsOn)
+        {
+            if(player == 1)
+            {
+                ChannelFuture cf = new DisconnectPacket("Opponent disconnected. You win").write(ch2);
+                //cf.addListener() todo wait for read
+                ch2.disconnect();
+            }
+            else
+            {
+                ChannelFuture cf = new DisconnectPacket("Opponent disconnected. You win").write(ch1);
+                ch1.disconnect();
+            }
+            gameIsOn = false;
+        }
+        else if(player == 1) aquired1 = false;
         else aquired2 = false;
-        gameIsOn = false;
     }
 
     public boolean isGameIsOn() {
@@ -84,9 +99,9 @@ public class GameSession {
         for(int i = 0; i < count;++i)
             takeCard(deck,hand,ch);
     }
-    public void playerAttack(Channel player,int monsterIndex)
+    public void playerAttack(int player,int monsterIndex)
     {
-        if(player == ch1)
+        if(player == 1)
         {
             if(phase == 1)
             {
@@ -97,6 +112,7 @@ public class GameSession {
                         new RejectActionPacket("No such a monster!").write(ch1);
                     else
                     {
+                        new AcceptActionPacket().write(ch1);
                         Monster m = monstersp2.get(monsterIndex);
                         h1.attackMonster(m);
                         new MonsterHitPacket(m,monsterIndex,false).write(ch1);
@@ -113,7 +129,7 @@ public class GameSession {
                 new RejectActionPacket("Not your turn").write(ch1);
             }
         }
-        else
+        else if(player == 2)
         {
             if(phase == 2)
             {
@@ -124,6 +140,7 @@ public class GameSession {
                         new RejectActionPacket("No such a monster!").write(ch2);
                     else
                     {
+                        new AcceptActionPacket().write(ch2);
                         Monster m = monstersp2.get(monsterIndex);
                         h2.attackMonster(m);
                         new MonsterHitPacket(m,monsterIndex,false).write(ch2);
@@ -141,10 +158,11 @@ public class GameSession {
                 new RejectActionPacket("Not your turn").write(ch2);
             }
         }
+        else System.out.println("PlayerAttack err");
     }
-    public void playMonster(Channel player,int cardIndex)
+    public void playMonster(int player,int cardIndex)
     {
-        if(player == ch1)
+        if(player == 1)
         {
             if(phase == 1)
             {
@@ -154,6 +172,7 @@ public class GameSession {
                     Monster m = handp1.get(cardIndex);
                     if(h1.playCard(m))
                     {
+                        new AcceptActionPacket().write(ch1);
                         monstersp1.add(m);
                         handp1.remove(cardIndex);
                         new MonsterAddedPacket(m,cardIndex,true).write(ch1);
@@ -164,7 +183,7 @@ public class GameSession {
             }
             else new RejectActionPacket("Not your turn").write(ch1);
         }
-        else if(player == ch2)
+        else if(player == 2)
         {
             if(phase == 2)
             {
@@ -174,6 +193,7 @@ public class GameSession {
                     Monster m = handp2.get(cardIndex);
                     if(h2.playCard(m))
                     {
+                        new AcceptActionPacket().write(ch1);
                         monstersp2.add(m);
                         handp2.remove(cardIndex);
                         new MonsterAddedPacket(m,cardIndex,true).write(ch2);
@@ -184,33 +204,37 @@ public class GameSession {
             }
             else new RejectActionPacket("Not your turn").write(ch2);
         }
+        else System.out.println("playMonster err");
     }
-    public void endTurn(Channel player)
+    public void endTurn(int player)
     {
-        if(ch1 == player)
+        if(player == 1)
         {
             if(phase == 1)
             {
+                new AcceptActionPacket().write(ch1);
                 phase = 2;
                 h2.turnStart();
                 new HeroPacket(h2,true).write(ch2);
                 new HeroPacket(h2,false).write(ch1);
                 takeCard(deckp2,handp2,ch2);
             }
-            else new RejectActionPacket("Not yout turn").write(ch1);
+            else new RejectActionPacket("Not your turn").write(ch1);
         }
-        else if(ch2 == player)
+        else if(player == 2)
         {
             if(phase == 2)
             {
+                new AcceptActionPacket().write(ch2);
                 phase = 1;
                 h1.turnStart();
                 new HeroPacket(h1,true).write(ch1);
                 new HeroPacket(h1,false).write(ch2);
                 takeCard(deckp1,handp1,ch1);
             }
-            else new RejectActionPacket("Not yout turn").write(ch2);
+            else new RejectActionPacket("Not your turn").write(ch2);
         }
+        else System.out.println("endTurn err");
     }
 
 }

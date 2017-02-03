@@ -1,6 +1,5 @@
 package MNServer.GameCards;
 
-import MNServer.GameCards.Hero.Monsters.Monster;
 import MNServer.StatVar;
 
 import java.io.Serializable;

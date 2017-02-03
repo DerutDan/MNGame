@@ -1,5 +1,6 @@
 package MNServer;
 
+import MNServer.MNSPacket.MNSPacket;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -31,7 +32,7 @@ public class MNServer {
                     .childHandler(new MNServerInitializer());
             sessions.add(new GameSession());
             StatVar.initMonsterDeck();
-            server.bind(port).sync().channel().close().sync();
+            server.bind(port).sync().channel().closeFuture().sync();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

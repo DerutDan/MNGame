@@ -1,5 +1,6 @@
 package MNServer;
 
+import MNServer.MNSPacket.MNSPacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
