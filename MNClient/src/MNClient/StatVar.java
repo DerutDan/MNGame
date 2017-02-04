@@ -15,6 +15,7 @@ public class StatVar {
     public static int defaultDeckSize = 10;
     public static int initialHandSize = 3;
     public static int maxHandSize = 5;
+    public static int menuFrameWidth = 600,menuFrameHeight = 600,menuButtonWidth = 200,menuButtonHeight = 50, menuButtonGap = 50;
 
     public static boolean isDefaultDeckInited = false;
 
