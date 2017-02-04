@@ -18,6 +18,7 @@ public class MNServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("Connected");
         gameS =  MNServer.sessions.get(MNServer.sessions.size()-1);
         player = gameS.aquire(ctx.channel());
         if(player == 0) {
@@ -30,7 +31,7 @@ public class MNServerHandler extends ChannelInboundHandlerAdapter {
     }
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-
+        System.out.println("Disconnected");
        gameS.disconnected(player);
        ctx.close();
     }

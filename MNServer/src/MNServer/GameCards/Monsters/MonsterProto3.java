@@ -29,11 +29,11 @@ public class MonsterProto3 extends Monster implements Serializable {
 
     @Override
     public void setDeathDescription() {
-        deathDescription = "Enemy hits master";
+        deathDescription = "Enemy hits master\n";
     }
 
     @Override
     public void setPenaltyDescription() {
-        penaltyDescription = "MNServer.GameCards.Hero.Monsters.Monster takes 10 damage and attacks enemy";
+        penaltyDescription = "MNServer.GameCards.Hero.Monsters.Monster takes 10 damage and attacks enemy\n";
     }
 }

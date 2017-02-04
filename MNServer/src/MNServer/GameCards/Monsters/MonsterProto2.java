@@ -15,6 +15,7 @@ public class MonsterProto2 extends Monster implements Serializable{
     @Override
     public void death() {
         master.getHit(15);
+        isAlive = false;
     }
 
     @Override
@@ -24,11 +25,11 @@ public class MonsterProto2 extends Monster implements Serializable{
 
     @Override
     public void setDeathDescription() {
-        deathDescription = "Master takes 15 damage";
+        deathDescription = "Master takes 15 damage\n";
     }
 
     @Override
     public void setPenaltyDescription() {
-        penaltyDescription = "Enemy takes 5 damage";
+        penaltyDescription = "Enemy takes 5 damage\n";
     }
 }
