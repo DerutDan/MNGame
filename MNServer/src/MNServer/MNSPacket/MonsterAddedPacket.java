@@ -10,22 +10,16 @@ import java.io.Serializable;
  */
 public class MonsterAddedPacket extends MNSPacket implements Serializable {
     Monster monster;
-    int index;
     boolean isMine;
-    public MonsterAddedPacket(Monster monster, int index, boolean isMine)
+    public MonsterAddedPacket(Monster monster, boolean isMine)
     {
         this.monster = monster;
-        this.index = index;
         this.isMine = isMine;
     }
 
     @Override
     public Monster get(Channel ch) {
         return monster;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public boolean isMine() {

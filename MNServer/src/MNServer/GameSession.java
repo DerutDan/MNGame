@@ -27,6 +27,7 @@ public class GameSession {
             if(aquired1&&aquired2)
             {
                 gameIsOn = true;
+                //init();
             }
             return 1;
         }
@@ -34,7 +35,11 @@ public class GameSession {
         {
             aquired2 = true;
             ch2 = ch;
-            if(aquired1&&aquired2) gameIsOn = true;
+            if(aquired1&&aquired2)
+            {
+                gameIsOn = true;
+                //init();
+            }
             return 2;
         }
         else return 0;
@@ -52,7 +57,11 @@ public class GameSession {
             }
             else
             {
-                ChannelFuture cf = new DisconnectPacket("Opponent disconnected. You win").write(ch1);
+                try {
+                    ChannelFuture cf = new DisconnectPacket("Opponent disconnected. You win").write(ch1).sync();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ch1.disconnect();
             }
             gameIsOn = false;
@@ -175,8 +184,8 @@ public class GameSession {
                         new AcceptActionPacket().write(ch1);
                         monstersp1.add(m);
                         handp1.remove(cardIndex);
-                        new MonsterAddedPacket(m,cardIndex,true).write(ch1);
-                        new MonsterAddedPacket(m,cardIndex,false).write(ch2);
+                        new MonsterAddedPacket(m,true).write(ch1);
+                        new MonsterAddedPacket(m,false).write(ch2);
                     }
                     else new RejectActionPacket("Not enough mana").write(ch1);
                 }
@@ -196,8 +205,8 @@ public class GameSession {
                         new AcceptActionPacket().write(ch1);
                         monstersp2.add(m);
                         handp2.remove(cardIndex);
-                        new MonsterAddedPacket(m,cardIndex,true).write(ch2);
-                        new MonsterAddedPacket(m,cardIndex,false).write(ch1);
+                        new MonsterAddedPacket(m,true).write(ch2);
+                        new MonsterAddedPacket(m,false).write(ch1);
                     }
                     else new RejectActionPacket("Not enough mana").write(ch2);
                 }
