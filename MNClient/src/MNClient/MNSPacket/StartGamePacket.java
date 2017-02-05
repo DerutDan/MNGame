@@ -7,7 +7,7 @@ import io.netty.channel.Channel;
  */
 public class StartGamePacket extends MNSPacket {
     @Override
-    public Object get(Channel ch) {
+    public Object get() {
         return null;
     }
 

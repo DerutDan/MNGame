@@ -9,7 +9,7 @@ public class StartTurnPacket extends MNSPacket {
     Channel ch;
 
     @Override
-    public Object get(Channel ch) {
+    public Object get() {
         return null;
     }
 

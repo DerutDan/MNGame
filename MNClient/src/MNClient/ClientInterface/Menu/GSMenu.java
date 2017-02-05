@@ -1,13 +1,9 @@
 package MNClient.ClientInterface.Menu;
 
-import MNClient.MNClientInitializer;
 import MNClient.StatVar;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
 
 import javax.swing.*;
 
@@ -19,9 +15,11 @@ public class GSMenu extends JFrame {
     EventLoopGroup workerGroup;
     public GSMenu(String address,int port,Bootstrap b, Channel channel){
 
-        cancel = new CancelButton();
+        cancel = new CancelButton(findGame,channel);
 
-        findGame = new FindGameButton(address,port,channel,b);
+        findGame = new FindGameButton(address,port,channel,b,cancel);
+
+
 
         setBounds(0,0, StatVar.menuFrameWidth, StatVar.menuFrameHeight);
         JPanel panel = new JPanel();

@@ -15,7 +15,7 @@ public class HandPacket extends MNSPacket implements Serializable {
     }
 
     @Override
-    public ArrayList<Monster> get(Channel ch) {
+    public ArrayList<Monster> get() {
             return hand;
     }
 

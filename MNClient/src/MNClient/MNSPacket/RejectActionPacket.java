@@ -15,7 +15,7 @@ public class RejectActionPacket extends MNSPacket implements Serializable {
     }
 
     @Override
-    public String get(Channel ch) {
+    public String get() {
         return reason;
     }
 

@@ -24,7 +24,7 @@ public class HeroPacket extends MNSPacket implements Serializable {
 
 
     @Override
-    public Hero get(Channel ch) {
+    public Hero get() {
         return h;
     }
 

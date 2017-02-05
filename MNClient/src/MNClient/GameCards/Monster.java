@@ -2,9 +2,7 @@ package MNClient.GameCards;
 
 import java.io.Serializable;
 
-/**
- * Created by Danila on 03.02.17.
- */
+
 public abstract class Monster extends GameCard implements Serializable {
     protected int maxhp,hp,attack,level,chargeTime,chargeLeft;
     protected Hero master,enemy;

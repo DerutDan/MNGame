@@ -16,7 +16,7 @@ public class TakeCardPacket extends MNSPacket implements Serializable {
     }
 
     @Override
-    public Monster get(Channel ch) {
+    public Monster get() {
         return monster;
     }
 

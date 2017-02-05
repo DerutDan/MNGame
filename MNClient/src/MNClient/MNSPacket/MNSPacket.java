@@ -26,7 +26,7 @@ public abstract class MNSPacket implements Serializable {
         return sessionId;
     }
     public int getT() { return type; }
-    public abstract Object get(Channel ch);
+    public abstract Object get();
     public abstract void setPacketClass();//Hero - 1; Hand - 2; TakeCard - 3; RejectAction - 4; MonsterHit - 5; MonsterAdded - 6;
-    //7 - Start turn;
+    //7 - Start turn; 8 - AcceptAction; 9 - StartGamePacket; 10 - Disconnect;
 }

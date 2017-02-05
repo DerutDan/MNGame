@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 public class FindGameButton extends JButton {
     Channel channel;
     Bootstrap b;
-    FindGameButton(String address, int port, Channel _channel,Bootstrap _b)
+    FindGameButton(String address, int port, Channel _channel,Bootstrap _b,CancelButton cancel)
     {
         this.channel = _channel;
         this.b = _b;
@@ -33,6 +33,8 @@ public class FindGameButton extends JButton {
             public void actionPerformed(ActionEvent e) {
                 try {
                     channel = b.connect(address, port).sync().channel();
+                    cancel.setVisible(true);
+                    setVisible(false);
                 } catch (InterruptedException err) {
                     err.printStackTrace();
                 }

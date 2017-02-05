@@ -1,5 +1,6 @@
 package MNClient;
 
+import MNClient.MNSPacket.DisconnectPacket;
 import MNClient.MNSPacket.MNSPacket;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -8,26 +9,26 @@ import java.util.PriorityQueue;
 
 
 public class MNClientHandler extends ChannelInboundHandlerAdapter {
-    PriorityQueue<MNSPacket> queue = MNClient.queue;
+    PriorityQueue<MNSPacket> queue;
+    MNClientHandler(PriorityQueue<MNSPacket> queue)
+    {
+        this.queue = queue;
+    }
+
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if(msg instanceof MNSPacket) {
-            if (MNClient.isGameOn) {
-                queue.add((MNSPacket) msg);
-            }
-            else {
-                if(((MNSPacket)msg).getT() == 10)
-                {
-                    MNClient.isGameOn = true;
-                    MNClient.game.start();
-                }
-            }
+            queue.add((MNSPacket)msg);
         }
         else {
-            System.err.println("Non packet msg recieved!");
+            System.out.println("Non packet msg recieved!");
         }
 
+    }
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        queue.add(new DisconnectPacket("Connection lost"));
     }
 
     @Override
@@ -35,4 +36,5 @@ public class MNClientHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         ctx.close();
     }
+
 }
